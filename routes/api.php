@@ -44,6 +44,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/cases/{id}', [CasefileController::class, 'show']); 
         Route::get('/agenda', [AgendaController::class, 'getMyAgenda']);
         Route::get('/my-bookings', [BookingController::class, 'lawyerBookings']);
+        Route::post('/bookings/{id}/respond', [BookingController::class, 'respondToBooking']);
         Route::get('/consultations', [LawyerController::class, 'index']);
         Route::get('/consultations/{id}', [ConsultationController::class, 'show']);
         Route::post('/consultations/{id}/status', [ConsultationController::class, 'updateStatus']);
@@ -105,6 +106,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/consultations/{id}', [ConsultationController::class, 'show']);
         Route::get('/my-bookings', [BookingController::class, 'clientBookings']);
         Route::post('/bookings', [BookingController::class, 'store']);
+        Route::post('/bookings/{id}/confirm', [BookingController::class, 'confirmBooking']);
         Route::post('/payments/store', [PaymentController::class, 'store']); // تسجيل دفع استشارة
     });
 
@@ -119,6 +121,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/upload-document', [DocumentController::class, 'upload']);
         Route::get('/petition-templates/{catId}', [PetitionController::class, 'getTemplates']);
         Route::post('/save-petition', [PetitionController::class, 'store']);
+        Route::patch('/bookings/{id}/status', [BookingController::class, 'updateBookingStatus']);
     });
 
     // --- نظام التنبيهات ---
