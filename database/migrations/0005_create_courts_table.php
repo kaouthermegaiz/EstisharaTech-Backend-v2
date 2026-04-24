@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('level_id');
             $table->unsignedBigInteger('wilaya_id')->nullable();
             $table->string('name');
+            $table->string('location')->nullable();
             $table->timestamps();
             $table->foreign('level_id')->references('id')->on('court_levels')->onDelete('cascade');
             $table->foreign('wilaya_id')->references('id')->on('wilayas')->onDelete('cascade');

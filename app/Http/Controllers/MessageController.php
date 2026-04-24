@@ -64,6 +64,28 @@ class MessageController extends Controller
     ]);
 }
 
+public function getMessages($consultationId)
+{
+    try {
+        // التأكد من وجود الاستشارة
+        $consultation = Consultation::findOrFail($consultationId);
+
+        
+        $messages = Message::where('consultation_id', $consultationId)
+            ->with(['sender:id,name']) 
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        return response()->json($messages);
+        
+    } catch (\Exception $e) {
+        // هذا السطر سيساعدك في معرفة الخطأ الحقيقي إذا استمرت المشكلة
+        return response()->json([
+            'error' => 'حدث خطأ في السيرفر',
+            'details' => $e->getMessage()
+        ], 500);
+    }
+}
 
 
 // 1. جلب المناقشات المهنية فقط

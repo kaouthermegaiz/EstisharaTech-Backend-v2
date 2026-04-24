@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Casefile extends Model
 {
-    protected $fillable = ['title', 'client_id', 'lawyer_id', 'courtroom_id', 'description', 'status'];
+    protected $fillable = ['title', 'client_id', 'lawyer_id', 'courtroom_id', 'description', 'status', 'external_client_name', 'external_client_phone'];
 
     public function lawyer(): BelongsTo
     {

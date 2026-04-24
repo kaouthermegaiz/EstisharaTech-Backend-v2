@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Consultation extends Model
 {
-    protected $fillable = ['client_id', 'lawyer_id', 'consul_date', 'status', 'payment_status', 'subject', 'description'];
+    protected $fillable = ['client_id', 'lawyer_id', 'consul_date', 'status', 'payment_status', 'subject', 'description','location','legal_status','goal','converted_to_case'];
 
     public function lawyer(): BelongsTo
     {
@@ -33,10 +33,10 @@ class Consultation extends Model
     }
 
     
-    public function messages(): HasMany
-    {
-        return $this->hasMany(Message::class);
-    }
+    public function messages()
+{
+    return $this->hasMany(Message::class, 'consultation_id');
+}
 
     
     public function documents(): HasMany

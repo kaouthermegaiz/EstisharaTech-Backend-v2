@@ -23,6 +23,10 @@ return new class extends Migration
 
             $table->string('subject');
             $table->text('description')->nullable();
+            $table->string('location')->nullable();
+            $table->string('legal_status')->nullable();
+            $table->string('goal');
+            $table->boolean('converted_to_case')->default(0);
 
             $table->timestamps();
             

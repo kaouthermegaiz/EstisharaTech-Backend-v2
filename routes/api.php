@@ -7,7 +7,7 @@ use App\Http\Controllers\{
     AuthController, LawyerController, ClientController,
     ConsultationController, BookingController, DeadlineController,
     DocumentController, MessageController, PetitionController,
-    AgendaController, CasefileController, PaymentController
+    AgendaController, CasefileController, PaymentController,MunicipalityController
 };
 
 /*
@@ -40,12 +40,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('role:2')->prefix('lawyer')->group(function () {
         Route::get('/dashboard', [LawyerController::class, 'dashboard']);
         Route::put('/profile/update', [LawyerController::class, 'updateProfile']);
-        Route::get('/my-cases', [LawyerController::class, 'index']);
+        Route::get('/my-cases', [CasefileController::class, 'index']); 
+        Route::get('/cases/{id}', [CasefileController::class, 'show']); 
         Route::get('/agenda', [AgendaController::class, 'getMyAgenda']);
         Route::get('/my-bookings', [BookingController::class, 'lawyerBookings']);
         Route::get('/consultations', [LawyerController::class, 'index']);
         Route::get('/consultations/{id}', [ConsultationController::class, 'show']);
-        Route::patch('/consultations/{id}/status', [ConsultationController::class, 'updateStatus']);
+        Route::post('/consultations/{id}/status', [ConsultationController::class, 'updateStatus']);
+        Route::get('/consultations/{id}/preview-conversion', [ConsultationController::class, 'previewConversion']);
+        Route::post('/consultations/{id}/convert-to-case', [ConsultationController::class, 'convertToCase']);
+        // Route::get('/consultations/{id}/ai-analyze', [ConsultationController::class, 'analyzeWithAI']);
         Route::post('/cases', [CasefileController::class, 'store']);
         Route::get('/judicial-structure', function (Request $request) {
             $user = $request->user();
@@ -98,7 +102,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('role:3')->prefix('client')->group(function () {
         Route::get('/my-consultations', [ClientController::class, 'index']);
         Route::post('/consultations', [ConsultationController::class, 'store']);
-        Route::get('/my-consultations', [ClientController::class, 'index']);
         Route::get('/consultations/{id}', [ConsultationController::class, 'show']);
         Route::get('/my-bookings', [BookingController::class, 'clientBookings']);
         Route::post('/bookings', [BookingController::class, 'store']);
@@ -112,6 +115,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::prefix('shared')->group(function () {
+        Route::get('/municipalities', [MunicipalityController::class, 'getMunicipalities']);
         Route::post('/upload-document', [DocumentController::class, 'upload']);
         Route::get('/petition-templates/{catId}', [PetitionController::class, 'getTemplates']);
         Route::post('/save-petition', [PetitionController::class, 'store']);

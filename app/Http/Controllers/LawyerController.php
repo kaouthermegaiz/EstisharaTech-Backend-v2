@@ -116,15 +116,15 @@ public function search(Request $request)
 
     
    
-public function getConsultedClients()
+public function getMyConsultedClients()
 {
-    // جلب الموكلين الذين لديهم استشارات "مقبولة" أو "مكتملة" مع هذا المحامي
     $clients = Consultation::where('lawyer_id', Auth::id())
         ->whereIn('status', ['accepted', 'completed'])
         ->with('client.user')
         ->get()
-        ->pluck('client') // استخراج بيانات الموكل فقط
-        ->unique('user_id'); // منع التكرار إذا كان للموكل أكثر من استشارة
+        ->pluck('client')
+        ->unique('user_id')
+        ->values(); // مهم
 
     return response()->json($clients);
 }
